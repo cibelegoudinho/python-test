@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+
+{% block content %}
+    {% for music in musics %}
+        <div class="music">
+            <h2><a href="{% url 'music_detail' pk=music.pk %}">{{ music.song_title }}</a></h2>
+            <p>{{ music.author|linebreaksbr }}</p>
+        </div>
+    {% endfor %}
+    {% for content in contents %}
+        <div class="content">
+            <h2><a href="{% url 'content_detail' pk=content.pk %}">{{ content.file_name }}</a></h2>
+        </div>
+    {% endfor %}
+    {% for task in tasks %}
+        <div class="task">
+            <h2><a href="{% url 'task_detail' pk=task.pk %}">{{ task.task_title }}</a></h2>
+            <p>{{ task.description|linebreaksbr }}</p>
+            <p>{{ task.end_date|linebreaksbr }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

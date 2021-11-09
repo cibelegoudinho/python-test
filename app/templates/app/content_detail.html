@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+
+{% block content %}
+    <div class="content">
+        {% if content.updated_at %}
+            <div class="date">
+                {{ content.updated_at }}
+            </div>
+        {% elif content.created_at %}
+            <div class="date">
+                {{ content.created_at }}
+            </div>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a class="btn btn-default" href="{% url 'content_edit' pk=content.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        {% endif %}
+        <h2>{{ content.file_name }}</h2>
+        <p>{{ content.content_file|linebreaksbr }}</p>
+    </div>
+{% endblock %}
