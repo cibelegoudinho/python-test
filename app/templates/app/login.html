@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block login %}
+    <h2>Login</h2>
+    <form method="POST" class="form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+    <a href="{% url 'sign_up' %}" class="top-menu">Cadastro</span></a>
+{% endblock %}

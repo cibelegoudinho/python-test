@@ -1,4 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, UpdateView, View, TemplateView, DetailView
 from django.utils import timezone
 from .models import Note
 from .models import Task
@@ -8,150 +10,239 @@ from .forms import NoteForm
 from .forms import TaskForm
 from .forms import ContentForm
 from .forms import MusicForm
+from .functions import get_contents
+    
+class Home(LoginRequiredMixin, TemplateView):
+    template_name = 'app/home.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contents = Content.objects.filter(created_at__lte=timezone.now()).order_by('created_at').values('pk', 'file_name')
+        musics = Music.objects.filter(created_at__lte=timezone.now()).order_by('created_at').values('pk', 'song_title')
+        tasks = Task.objects.filter(created_at__lte=timezone.now()).order_by('created_at').values('pk', 'task_title', 'end_date')
 
-def note_list(request):
-    notes = Note.objects.all()
-    return render(request, 'app/note_list.html', {'notes': notes})
+        context['contents'] = contents
+        context['musics'] = musics
+        context['tasks'] = tasks
 
-def note_detail (request, pk):
-    note = get_object_or_404(Note, pk=pk)
-    return render(request, 'app/note_detail.html', {'note': note})
+        return context
 
-def note_new(request):
-    if request.method == "POST":
-         form = NoteForm(request.POST)
-         if form.is_valid():
-             note = form.save(commit=False)
-             note.user = request.user
-             note.save()
-             return redirect('note_detail', pk=note.pk)
-    else:
-        form = NoteForm()
-    return render(request, 'app/note_edit.html', {'form': form})
+    # def dispatch(self, request, *args, **kwargs):
+    #     super().dispatch(request, *args, **kwargs)
+    #     contents = Content.objects.filter(created_at__lte=timezone.now()).order_by('created_at').values('pk', 'file_name')
+    #     musics = Music.objects.filter(created_at__lte=timezone.now()).order_by('created_at').values('pk', 'song_title')
+    #     tasks = Task.objects.filter(created_at__lte=timezone.now()).order_by('created_at').values('pk', 'task_title', 'end_date')
 
-def note_edit(request, pk):
-     note = get_object_or_404(Note, pk=pk)
-     if request.method == "POST":
-         form = NoteForm(request.POST, instance=note)
-         if form.is_valid():
-             note = form.save(commit=False)
-             note.user = request.user
-             note.save()
-             return redirect('note_detail', pk=note.pk)
-     else:
-         form = NoteForm(instance=note)
-     return render(request, 'app/note_edit.html', {'form': form})
+    #     response = {
+    #         "contents": contents,
+    #         "musics": musics,
+    #         "tasks": tasks,
+    #     }
+    #     return render(request, 'app/home.html', response)
 
 
-def task_filtered(request):
-    tasks = Task.objects.filter(created_at__lte=timezone.now()).order_by('created_at') 
-    return render(request, 'app/home.html', {'tasks': tasks})
+class NoteAll(LoginRequiredMixin, TemplateView):
+    template_name = 'app/note/note_all.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notes = Note.objects.all()
+        context['notes'] = notes
 
-def task_list(request):
-    tasks = Task.objects.all()
-    return render(request, 'app/task_list.html', {'tasks': tasks})
+        return context
 
-def task_detail (request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    return render(request, 'app/task_detail.html', {'task': task})
+class NoteList(LoginRequiredMixin, TemplateView):
+    template_name = 'app/note/note_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notes = Note.objects.all()
+        context['notes'] = notes
 
-def task_new(request):
-    if request.method == "POST":
-         form = TaskForm(request.POST)
-         if form.is_valid():
-             task = form.save(commit=False)
-             task.user = request.user
-             task.save()
-             return redirect('task_detail', pk=task.pk)
-    else:
-        form = TaskForm()
-    return render(request, 'app/task_edit.html', {'form': form})
+        return context
 
-def task_edit(request, pk):
-     task = get_object_or_404(Task, pk=pk)
-     if request.method == "POST":
-         form = TaskForm(request.POST, instance=task)
-         if form.is_valid():
-             task = form.save(commit=False)
-             task.user = request.user
-             task.save()
-             return redirect('task_detail', pk=task.pk)
-     else:
-         form = TaskForm(instance=task)
-     return render(request, 'app/task_edit.html', {'form': form})
+class NoteDetail(LoginRequiredMixin, DetailView):
+    template_name = 'app/note/note_detail.html'
+    model = Note
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs.get('pk'))
 
+class NoteCreateView(LoginRequiredMixin, CreateView):
+    template_name = "app/note/note_edit.html"
+    form_class = NoteForm
+    model = Note
 
-def content_filtered(request):
-    contents = Content.objects.filter(created_at__lte=timezone.now()).order_by('created_at') 
-    return render(request, 'app/home.html', {'contents': contents})
+    def get_success_url(self):
+        return reverse("note_detail", kwargs={"pk": self.object.pk})
 
-def content_list(request):
-    contents = Content.objects.all()
-    return render(request, 'app/content_list.html', {'contents': contents})
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super(NoteCreateView, self).form_valid(form)
 
-def content_detail (request, pk):
-    content = get_object_or_404(Content, pk=pk)
-    return render(request, 'app/content_detail.html', {'content': content})
+class NoteUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = "app/note/note_edit.html"
+    form_class = NoteForm
+    model = Note
 
-def content_new(request):
-    if request.method == "POST":
-         form = ContentForm(request.POST)
-         if form.is_valid():
-             content = form.save(commit=False)
-             content.user = request.user
-             content.save()
-             return redirect('content_detail', pk=content.pk)
-    else:
-        form = ContentForm()
-    return render(request, 'app/content_edit.html', {'form': form})
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs.get('pk'))
 
-def content_edit(request, pk):
-     content = get_object_or_404(Content, pk=pk)
-     if request.method == "POST":
-         form = ContentForm(request.POST, instance=content)
-         if form.is_valid():
-             content = form.save(commit=False)
-             content.user = request.user
-             content.save()
-             return redirect('content_detail', pk=content.pk)
-     else:
-         form = ContentForm(instance=content)
-     return render(request, 'app/content_edit.html', {'form': form})
+    def get_success_url(self):
+        return reverse("note_detail", kwargs={"pk": self.kwargs.get('pk')})
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
 
 
-def music_filtered(request):
-    musics = Music.objects.filter(created_at__lte=timezone.now()).order_by('created_at') 
-    return render(request, 'app/home.html', {'musics': musics})
+class TaskAll(LoginRequiredMixin, TemplateView):
+    template_name = 'app/task/task_all.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = Task.objects.all()
+        context['tasks'] = tasks
 
-def music_list(request):
-    musics = Music.objects.all()
-    return render(request, 'app/music_list.html', {'musics': musics})
+        return context
 
-def music_detail (request, pk):
-    music = get_object_or_404(Music, pk=pk)
-    return render(request, 'app/music_detail.html', {'music': music})
+class TaskList(LoginRequiredMixin, TemplateView):
+    template_name = 'app/task/task_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = Task.objects.all()
+        context['tasks'] = tasks
 
-def music_new(request):
-    if request.method == "POST":
-         form = MusicForm(request.POST)
-         if form.is_valid():
-             music = form.save(commit=False)
-             music.user = request.user
-             music.save()
-             return redirect('music_detail', pk=music.pk)
-    else:
-        form = MusicForm()
-    return render(request, 'app/music_edit.html', {'form': form})
+        return context
 
-def music_edit(request, pk):
-     music = get_object_or_404(Music, pk=pk)
-     if request.method == "POST":
-         form = MusicForm(request.POST, instance=music)
-         if form.is_valid():
-             music = form.save(commit=False)
-             music.user = request.user
-             music.save()
-             return redirect('music_detail', pk=music.pk)
-     else:
-         form = MusicForm(instance=music)
-     return render(request, 'app/music_edit.html', {'form': form})
+class TaskDetail(LoginRequiredMixin, DetailView):
+    template_name = 'app/task/task_detail.html'
+    model = Task
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs.get('pk'))
+
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    template_name = "app/task/task_edit.html"
+    form_class = TaskForm
+    model = Task
+
+    def get_success_url(self):
+        return reverse("task_detail", kwargs={"pk": self.object.pk})
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super(TaskCreateView, self).form_valid(form)
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = "app/task/task_edit.html"
+    form_class = TaskForm
+    model = Task
+
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs.get('pk'))
+
+    def get_success_url(self):
+        return reverse("task_detail", kwargs={"pk": self.kwargs.get('pk')})
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+
+class ContentAll(LoginRequiredMixin, TemplateView):
+    template_name = 'app/content/content_all.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contents = Content.objects.all()
+        context['contents'] = contents
+
+        return context
+
+class ContentList(LoginRequiredMixin, TemplateView):
+    template_name = 'app/content/content_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contents = Content.objects.all()
+        context['contents'] = contents
+
+        return context
+
+class ContentDetail(LoginRequiredMixin, DetailView):
+    template_name = 'app/content/content_detail.html'
+    model = Content
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs.get('pk'))
+
+class ContentCreateView(LoginRequiredMixin, CreateView):
+    template_name = "app/content/content_edit.html"
+    form_class = ContentForm
+    model = Content
+
+    def get_success_url(self):
+        return reverse("content_detail", kwargs={"pk": self.object.pk})
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super(ContentCreateView, self).form_valid(form)
+
+class ContentUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = "app/content/content_edit.html"
+    form_class = ContentForm
+    model = Content
+
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs.get('pk'))
+
+    def get_success_url(self):
+        return reverse("content_detail", kwargs={"pk": self.kwargs.get('pk')})
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+
+class MusicAll(LoginRequiredMixin, TemplateView):
+    template_name = 'app/music/music_all.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        musics = Music.objects.all()
+        context['musics'] = musics
+
+        return context
+
+class MusicList(LoginRequiredMixin, TemplateView):
+    template_name = 'app/music/music_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        musics = Music.objects.all()
+        context['musics'] = musics
+
+        return context
+
+class MusicDetail(LoginRequiredMixin, DetailView):
+    template_name = 'app/music/music_detail.html'
+    model = Music
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs.get('pk'))
+
+class MusicCreateView(LoginRequiredMixin, CreateView):
+    template_name = "app/music/music_edit.html"
+    form_class = MusicForm
+    model = Music
+
+    def get_success_url(self):
+        return reverse("music_detail", kwargs={"pk": self.object.pk})
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super(MusicCreateView, self).form_valid(form)
+
+class MusicUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = "app/music/music_edit.html"
+    form_class = MusicForm
+    model = Music
+
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs.get('pk'))
+
+    def get_success_url(self):
+        return reverse("music_detail", kwargs={"pk": self.kwargs.get('pk')})
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)

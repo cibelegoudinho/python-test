@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% extends 'app/base.html' %}
-
+{% load static %}
 {% block content %}
     <div class="content">
         {% if content.updated_at %}
@@ -16,6 +16,6 @@
             <a class="btn btn-default" href="{% url 'content_edit' pk=content.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
         {% endif %}
         <h2>{{ content.file_name }}</h2>
-        <p>{{ content.content_file|linebreaksbr }}</p>
+        <img src="{% get_media_prefix %}{{ content.content_file}}" alt="{{ content.file_name }}"/>
     </div>
 {% endblock %}

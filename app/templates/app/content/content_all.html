@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="content">
+        <a href="{% url 'content_new' %}" class="add"><span class="glyphicon glyphicon-plus"></span></a>
+        <h2>Arquivos</h2>
+        {% include 'app/content/content_list.html' %}
+    </div>
+{% endblock %}

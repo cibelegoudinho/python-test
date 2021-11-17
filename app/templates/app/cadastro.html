@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block login %}
+    <div class="cadastro">
+        <h2>Cadastro</h2>
+        <form method="POST" class="form">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+    </div>
+{% endblock %}

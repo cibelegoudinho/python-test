@@ -4,26 +4,22 @@
         <title>Python Test</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-        {% load static %}
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" type="text/css">
+        {% load static %} 
         <link rel="stylesheet" href="{% static 'css/app.css' %}">
     </head>
     <body>
-        <div class="page-header">
-            {% if user.is_authenticated %}
-                <a href="{% url 'task_new' %}" class="top-menu">Tarefa</span></a>
-                <a href="{% url 'music_new' %}" class="top-menu">Musica</span></a>
-                <a href="{% url 'content_new' %}" class="top-menu">Arquivo</span></a>
-            {% endif %}
-            <h1><a href="/">App test</a></h1>
-        </div>
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
+        {% if user.is_authenticated %}
+            <div class="home">
+                <div class="menu">
+                    {% include 'app/menu.html' %}
+                </div>
                 {% block content %}
                 {% endblock %}
-                </div>
-            </div>
+        {% elif user.is_authenticated == False %}
+            {% block login %}
+            {% endblock %}
+        {% endif %}
         </div>
     </body>
 </html>

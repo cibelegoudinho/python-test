@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="task_all">
+        <a href="{% url 'task_new' %}" class="add_task"><span class="glyphicon glyphicon-plus"></span></a>
+        <h2>Tarefas</h2>
+        {% include 'app/task/task_list.html' %}
+    </div>
+{% endblock %}

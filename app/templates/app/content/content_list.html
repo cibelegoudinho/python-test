@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+
+{% load static %}
+{% block content %}
+    {% for content in contents %}
+            <h3><a href="{% url 'content_detail' pk=content.pk %}">{{ content.file_name }}</a></h3>
+    {% endfor %}
+{% endblock %}

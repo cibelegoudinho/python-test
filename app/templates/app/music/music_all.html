@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="music">
+        <a href="{% url 'music_new' %}" class="add"><span class="glyphicon glyphicon-plus"></span></a>
+        <h2>Músicas</h2>
+        {% include 'app/music/music_list.html' %}
+    </div>
+{% endblock %}

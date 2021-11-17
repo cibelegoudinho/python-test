@@ -1,0 +1,197 @@
+.content-container h3 a {
+    color: #000000; 
+    font-family: 'Roboto';
+}
+
+.content-container {
+    display: flex;
+
+}
+
+.menu h1 a {
+    color: #fff; 
+    font-family: 'Roboto';
+}
+
+h3 {
+    margin: 0;
+}
+
+.menu { grid-area: menu; }
+.music { grid-area: music; }
+.content { grid-area: content; }
+.task { grid-area: task; }
+
+.home{
+    display: grid;
+    grid-template-areas:
+        'menu music music content content'
+        'menu task task task task';
+}
+
+.menu{
+    background-color: #B20060;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: #fff; 
+    font-family: 'Roboto';
+}
+
+.content{
+    background-color: #FDA1FF;
+    margin: 30px 15px 0px 15px;
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+}
+
+.music{
+    background-color: #FDA1FF;
+    margin-top: 30px;
+    margin-left: 20px;
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+}
+
+.music h2, .content h2, .task h2 {
+    font-size: 25px;
+    text-align: start;
+    margin-top: 6px;
+}
+
+.note h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.music h3, .content h3, .task h3{
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+
+.task p, .task_all p{
+    font-size: 15px;
+    color: #828282;
+}
+
+a{
+    color: black;
+}
+
+.task{
+    background-color: #FDA1FF;
+    margin: 30px 15px 0px 20px;
+    border-radius: 6px;
+    padding: 20px;   
+    position: relative;
+}
+
+.task_all{
+    background-color: #FDA1FF;
+    margin: 30px 15px 0px 20px;
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 6px;
+    padding: 20px;   
+    position: relative;
+}
+
+.task-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.home > div {
+    text-align: center;
+    font-size: 30px;
+  }
+
+
+.menu h1, .menu h1 a, .menu h1 a:visited, .menu h1 a:active {
+    color: #fff;
+    font-size: 30pt;
+    text-decoration: none;
+    margin-bottom: 30px;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Roboto', cursive;
+}
+
+.date {
+    color: #828282;
+    font-size: 20px;
+}
+
+.save {
+    float: right;
+}
+
+.form textarea, .form input {
+    width: 100%;
+}
+
+.button{
+    position: absolute;
+    top: 3px;
+    left: 190px;
+    right: 0px;
+    width: 5px;
+    height: 5px;
+  
+}
+
+.top-menu, .top-menu:hover, .top-menu:visited {
+    color: #000000;
+    background-color: #FDA1FF;
+    float: right;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.note {
+    margin: 30px 90px 0px 110px;
+    border-radius: 6px;
+    padding: 20px;
+    background-color: #FDA1FF;
+    position: relative;
+}
+
+.note h2 a, .note h2 a:visited {
+    color: #000000;
+}
+
+.add{
+    position: absolute;
+    color: #B20060;
+    top: 3px;
+    left: 145px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+}
+
+.add_note{
+    position: absolute;
+    color: #B20060;
+    top: 3px;
+    left: 120px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+}
+
+.add_task{
+    position: absolute;
+    color: #B20060;
+    top: 3px;
+    left: 320px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+}

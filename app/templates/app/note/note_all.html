@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="note">
+        <a href="{% url 'note_new' %}" class="add_note"><span class="glyphicon glyphicon-plus"></span></a>
+        <h2>Anotações</h2>
+        {% include 'app/note/note_list.html' %}
+    </div>
+{% endblock %}
+
