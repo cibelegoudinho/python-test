@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 {% extends 'app/base.html' %}
-{% load static %}
+{% load staticfiles %}
 {% block login %}
-    <h2>Login</h2>
-    <form method="POST" class="form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
-    <a href="{% url 'sign_up' %}" class="top-menu">Cadastro</span></a>
+    <div class="fundo">
+        <img/>
+    </div>
+    <div class="login">
+        <h2 class=title_login>LOGIN</h2>
+        <form method="POST" class="form">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Entrar</button>
+        </form>
+        <a href="{% url 'sign_up' %}" class="singup">Ainda não possui conta? Cadastre-se aqui!</span></a>
+    </div>
 {% endblock %}

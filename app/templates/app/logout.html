@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block login %}
+    <div class="fundo">
+        <img/>
+    </div>
+    <div class="login">
+        <h2 class=title_login>Você foi deslogado!</h2>
+        <a href="{% url 'login' %}" class="singup">Fazer Login</span></a>
+    </div>
+{% endblock %}

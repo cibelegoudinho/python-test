@@ -7,8 +7,11 @@ from .authentication import views as authentication_views
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='app/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='app/logout.html'), name='logout'),
 
     path('signup/', authentication_views.UserCreateView.as_view(), name='sign_up'),
+
+    path('search/', views.SearchResultsView.as_view(), name='search_results'),
 
     path('', views.Home.as_view(), name='home'), 
     path('note', views.NoteList.as_view(), name='note_list'),

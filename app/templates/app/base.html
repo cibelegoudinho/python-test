@@ -9,17 +9,21 @@
         <link rel="stylesheet" href="{% static 'css/app.css' %}">
     </head>
     <body>
-        {% if user.is_authenticated %}
-            <div class="home">
-                <div class="menu">
-                    {% include 'app/menu.html' %}
+            {% if user.is_authenticated %}
+                <div class="home">
+                    <div class="col-md-2 menu">
+                        {% include 'app/menu.html' %}
+                    </div>
+                    <div class="col-md-10">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
                 </div>
-                {% block content %}
-                {% endblock %}
-        {% elif user.is_authenticated == False %}
-            {% block login %}
-            {% endblock %}
-        {% endif %}
-        </div>
+            {% elif user.is_authenticated == False %}
+                <div class="background-login">
+                    {% block login %}
+                    {% endblock %}
+                </div>
+            {% endif %}
     </body>
 </html>

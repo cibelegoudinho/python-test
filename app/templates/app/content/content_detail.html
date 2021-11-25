@@ -2,20 +2,26 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content %}
-    <div class="content">
-        {% if content.updated_at %}
-            <div class="date">
-                {{ content.updated_at }}
-            </div>
-        {% elif content.created_at %}
-            <div class="date">
-                {{ content.created_at }}
-            </div>
-        {% endif %}
-        {% if user.is_authenticated %}
-            <a class="btn btn-default" href="{% url 'content_edit' pk=content.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        {% endif %}
-        <h2>{{ content.file_name }}</h2>
-        <img src="{% get_media_prefix %}{{ content.content_file}}" alt="{{ content.file_name }}"/>
+<div class="content_all">
+    <div class="all_container">
+        <div class="detail">
+            {% if user.is_authenticated %}
+                <div class="button">
+                    <a class="btn btn-default" href="{% url 'content_edit' pk=content.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                </div>
+            {% endif %}
+            <h2>{{ content.file_name }}</h2>
+            <img src="{% get_media_prefix %}{{ content.content_file}}" alt="{{ content.file_name }}"/>
+            {% if content.updated_at %}
+                <div class="date">
+                   Atualizado em: {{ content.updated_at }}
+                </div>
+            {% elif content.created_at %}
+                <div class="date">
+                   Criado em: {{ content.created_at }}
+                </div>
+            {% endif %}
+        </div>
     </div>
+</div>
 {% endblock %}

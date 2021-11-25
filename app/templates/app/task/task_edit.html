@@ -2,9 +2,13 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content %}
-    <h2>New task</h2>
-    <form method="POST" class="form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
+    <div class="all_container">
+        <div class="task_new">
+            <h2>Tarefa</h2>
+            <form method="POST" class="form">{% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default">Salvar</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

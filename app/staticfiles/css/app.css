@@ -17,22 +17,38 @@ h3 {
     margin: 0;
 }
 
-.menu { grid-area: menu; }
-.music { grid-area: music; }
-.content { grid-area: content; }
-.task { grid-area: task; }
+.inside_search{
+    display: flex;
+}
 
-.home{
-    display: grid;
-    grid-template-areas:
-        'menu music music content content'
-        'menu task task task task';
+.search-button{
+    margin-left: 5px;
+    border-radius: 10px;
+    color: #000;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .menu form input {
+    width: 500px;
+    height: 40px;
+    border: 1px solid #a9a9a9;
+    border-radius: 6px;
+} */
+
+.content_all{
+    min-height: calc(100vh - 30px - 0px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .menu{
     background-color: #B20060;
-    display: flex;
+    padding: 0;
     flex-wrap: wrap;
+    min-height: calc(100vh - 30px - 0px);
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -40,17 +56,33 @@ h3 {
     font-family: 'Roboto';
 }
 
+/* .page-content {
+    padding-top: 20px;
+    min-height: calc(100vh - 102px - 102px);
+} */
+
 .content{
     background-color: #FDA1FF;
     margin: 30px 15px 0px 15px;
+    min-height: calc(100vh - 290px - 10px);
     border-radius: 6px;
     padding: 20px;
     position: relative;
 }
 
+.search{
+    margin-top: 15px;
+    border-radius: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+
 .music{
     background-color: #FDA1FF;
     margin-top: 30px;
+    min-height: calc(100vh - 290px - 10px);
     margin-left: 20px;
     border-radius: 6px;
     padding: 20px;
@@ -73,7 +105,7 @@ h3 {
     padding-bottom: 10px;
 }
 
-.task p, .task_all p{
+.task p, .all p{
     font-size: 15px;
     color: #828282;
 }
@@ -84,20 +116,51 @@ a{
 
 .task{
     background-color: #FDA1FF;
-    margin: 30px 15px 0px 20px;
+    margin: 30px 30px 0px 32px;
     border-radius: 6px;
     padding: 20px;   
     position: relative;
 }
 
-.task_all{
-    background-color: #FDA1FF;
-    margin: 30px 15px 0px 20px;
+.base {
+    min-height: calc(100vh - 30px - 0px);
+}
+
+.result{
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.result p{
+    font-size: 15px;
+    color: #828282;
+}
+
+.all_container{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+    text-align: center;
+    min-height: calc(100vh - 20px - 120px);
+}
+
+.all{
+    background-color: #FDA1FF;
+    margin-top: 10px;
+    min-height: calc(100vh - 20px - 120px);
+    width: 500px;
     border-radius: 6px;
-    padding: 20px;   
+    padding: 30px 20px 20px 20px;   
     position: relative;
+}
+
+.m1 h3{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.m1 p{
+    font-size: 25px;
+    color: #828282;
 }
 
 .task-list{
@@ -109,14 +172,14 @@ a{
 .home > div {
     text-align: center;
     font-size: 30px;
-  }
-
+}
 
 .menu h1, .menu h1 a, .menu h1 a:visited, .menu h1 a:active {
     color: #fff;
     font-size: 30pt;
     text-decoration: none;
     margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 h1, h2, h3, h4 {
@@ -130,20 +193,38 @@ h1, h2, h3, h4 {
 
 .save {
     float: right;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 .form textarea, .form input {
     width: 100%;
+    border-radius: 6px;
+    border: 1px solid #a9a9a9;
+    color: black;
+}
+
+.form textarea, .form input:focus-visible {
+    outline: none;
 }
 
 .button{
     position: absolute;
     top: 3px;
-    left: 190px;
+    left: 450px;
     right: 0px;
     width: 5px;
     height: 5px;
-  
+}
+
+img{
+    height: 200px;
+}
+
+.fundo img{
+    min-height: calc(100vh - 0px - 0px);
+    position: relative;
 }
 
 .top-menu, .top-menu:hover, .top-menu:visited {
@@ -151,14 +232,25 @@ h1, h2, h3, h4 {
     background-color: #FDA1FF;
     float: right;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
-.note {
-    margin: 30px 90px 0px 110px;
+.logout-menu{
+    color: #fff;
+    background-color: #e71c1c;
+    float: right;
+    width: 100%;
+    margin-bottom: 30px;
+    margin-top: 150px;
+}
+
+.detail {
+    margin: 15px 0px 15px 0px;
     border-radius: 6px;
+    width: 500px;
     padding: 20px;
     background-color: #FDA1FF;
+    min-height: calc(100vh - 20px - 120px);
     position: relative;
 }
 
@@ -166,32 +258,109 @@ h1, h2, h3, h4 {
     color: #000000;
 }
 
+.task_new{
+    background-color: #FDA1FF;
+    margin: 30px 0px 15px 50px;
+    border-radius: 6px;
+    padding: 5px 20px 10px 20px; 
+}
+
+.new{
+    background-color: #FDA1FF;
+    margin: 30px 0px 15px 50px;
+    border-radius: 6px;
+    padding: 5px 20px 10px 20px;   
+}
+
+.new p{
+    font-size: 20px;
+}
+
+.task_new p{
+    font-size: 17px;
+}
+
+.new h2, .task_new h2{
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .add{
     position: absolute;
     color: #B20060;
-    top: 3px;
-    left: 145px;
+    top: 5px;
+    left: 460px;
     right: 0px;
     width: 10px;
     height: 10px;
 }
 
-.add_note{
-    position: absolute;
-    color: #B20060;
-    top: 3px;
-    left: 120px;
-    right: 0px;
-    width: 10px;
-    height: 10px;
+.background-login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blue; 
+    background-image: linear-gradient(to bottom right, pink, purple);
 }
 
-.add_task{
+.login{
+    background-color: #B20060;
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 400px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin: 30px;
     position: absolute;
-    color: #B20060;
-    top: 3px;
-    left: 320px;
+    top: 100px;
+    left: 450px;
     right: 0px;
-    width: 10px;
-    height: 10px;
+    padding: 10px;
+}
+
+.cadastro{
+    background-color: #B20060;
+    color: #fff;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    flex-wrap: wrap;
+    position: absolute;
+    width: 550px;
+    height: 550px;
+    top: 50px;
+    left: 400px;
+    right: 0px;
+    padding: 15px;
+}
+
+.singup{
+    margin: 10px;
+    color: #fff;
+    text-decoration: underline;
+    width: 100%;
+}
+
+a:hover, a:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:focus {
+    outline: none;
+    outline-offset: 0px;
+}
+
+.title_login{
+    width: 100%;
+}
+
+.title h2{
+    font-weight: bold;
 }

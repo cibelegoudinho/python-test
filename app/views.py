@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView, View, TemplateView, DetailView
+from django.views.generic import CreateView, UpdateView, TemplateView, DetailView, ListView
 from django.utils import timezone
+from django.db.models import Q
 from .models import Note
 from .models import Task
 from .models import Content
@@ -38,6 +39,23 @@ class Home(LoginRequiredMixin, TemplateView):
     #         "tasks": tasks,
     #     }
     #     return render(request, 'app/home.html', response)
+
+
+class SearchResultsView(TemplateView):
+    template_name = 'app/search_results.html'
+
+    def get_context_data(self, **kwargs):
+        query = self.request.GET.get('q')
+        context = super().get_context_data(**kwargs)
+        contents = Content.objects.filter(Q(file_name__icontains=query)).values('pk','file_name')
+        musics = Music.objects.filter(Q(song_title__icontains=query) | Q(author__icontains=query)).values('pk','song_title', 'author')
+        tasks = Task.objects.filter(Q(task_title__icontains=query) | Q(end_date__icontains=query)).values('pk','task_title', 'end_date')
+
+        context['contents'] = contents
+        context['musics'] = musics
+        context['tasks'] = tasks
+
+        return context
 
 
 class NoteAll(LoginRequiredMixin, TemplateView):

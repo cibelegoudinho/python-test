@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 {% extends 'app/base.html' %}
-{% load static %}
+{% load staticfiles %}
 {% block login %}
+    <div class="fundo">
+        <img/>
+    </div>
     <div class="cadastro">
-        <h2>Cadastro</h2>
+        <h2 class=title_login>CADASTRO</h2>
         <form method="POST" class="form">{% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="save btn btn-default">Save</button>
+            <button type="submit" class="save btn btn-default">Cadastrar</button>
         </form>
+        <a href="{% url 'login' %}" class="singup">Voltar</span></a>
     </div>
 {% endblock %}

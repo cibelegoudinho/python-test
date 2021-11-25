@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="base">
+        <div class="row">
+            <h1>Search Results</h1>
+        </div>
+        <div class="row all_container">
+            <div class="detail">
+                <div class="row result">
+                    {% for task in tasks %}  
+                        <h3><a href="{% url 'task_detail' pk=task.pk %}">{{ task.task_title|linebreaksbr }}</a></h3>                    
+                        <p>{{ task.end_date|date:"D, d M, Y" }}</p>               
+                    {% endfor %}
+                </div>
+                <div class="row result">
+                    {% for music in musics %}    
+                        <h3><a href="{% url 'music_detail' pk=music.pk %}">{{ music.song_title|linebreaksbr }}</a></h3>                    
+                        <p>{{ music.author|linebreaksbr }}</p>                   
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    {% for content in contents %}
+                        <h3><a href="{% url 'content_detail' pk=content.pk %}">{{ content.file_name }}</a></h3>                    
+                    {% endfor %}
+                </div> 
+            </div>
+        </div>
+    </div>
+{% endblock %}

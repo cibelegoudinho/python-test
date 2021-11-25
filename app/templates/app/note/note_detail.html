@@ -2,22 +2,26 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content %}
-    <div class="note">
-            {% if user.is_authenticated %}
-                <div class="button">
-                    <a class="btn btn-default" href="{% url 'note_edit' pk=object.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+<div class="content_all">
+    <div class="all_container">
+        <div class="detail">
+                {% if user.is_authenticated %}
+                    <div class="button">
+                        <a class="btn btn-default" href="{% url 'note_edit' pk=object.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    </div>
+                {% endif %}
+                <h2>{{ object.title }}</h2>
+            <p>{{ object.text|linebreaksbr }}</p>
+            {% if object.updated_at %}
+                <div class="date">
+                    {{ object.updated_at }}
+                </div>
+            {% elif object.created_at %}
+                <div class="date">
+                    {{ object.created_at }}
                 </div>
             {% endif %}
-            <h2>{{ object.title }}</h2>
-        <p>{{ object.text|linebreaksbr }}</p>
-        {% if object.updated_at %}
-            <div class="date">
-                {{ object.updated_at }}
-            </div>
-        {% elif object.created_at %}
-            <div class="date">
-                {{ object.created_at }}
-            </div>
-        {% endif %}
+        </div>
     </div>
+</div>
 {% endblock %}

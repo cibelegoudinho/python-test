@@ -4,9 +4,10 @@
 <div class="menu">    
     {% if user.is_authenticated %}
         <h1><a href="/">Home</a></h1>
-        <a href="{% url 'task_all' %}" class="top-menu">Tarefa</span></a>
-        <a href="{% url 'music_all' %}" class="top-menu">Musica</span></a>
-        <a href="{% url 'content_all' %}" class="top-menu">Arquivo</span></a>
+        <a href="{% url 'task_all' %}" class="top-menu">Tarefas</span></a>
+        <a href="{% url 'music_all' %}" class="top-menu">Musicas</span></a>
+        <a href="{% url 'content_all' %}" class="top-menu">Arquivos</span></a>
         <a href="{% url 'note_all' %}" class="top-menu">Anotações</span></a>
+        <a href="{% url 'logout' %}" class="logout-menu">Deslogar</span></a>
     {% endif %}
 </div>

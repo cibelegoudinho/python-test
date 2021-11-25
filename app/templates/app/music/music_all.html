@@ -2,9 +2,15 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content %}
-    <div class="music">
-        <a href="{% url 'music_new' %}" class="add"><span class="glyphicon glyphicon-plus"></span></a>
-        <h2>Músicas</h2>
-        {% include 'app/music/music_list.html' %}
+    <div class="base">
+        <div class="row title">
+            <h2>MÚSICAS</h2>
+        </div>
+        <div class="row all_container">
+            <div class="all">
+                <a href="{% url 'music_new' %}" class="add"><span class="glyphicon glyphicon-plus"></span></a>
+                {% include 'app/music/music_list.html' %}
+            </div>
+        </div>
     </div>
 {% endblock %}

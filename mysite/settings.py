@@ -101,6 +101,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL="/"
+LOGOUT_URL = '/logout'
 AUTHENTICATION_BACKENDS = [
     'app.authentication.backends.CustomModelBackend'
 ]

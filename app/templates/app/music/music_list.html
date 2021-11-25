@@ -2,9 +2,7 @@
 {% load static %}
 {% block content %}
     {% for music in musics %}
-        <!-- <div class="music"> -->
             <h3><a href="{% url 'music_detail' pk=music.pk %}">{{ music.song_title }}</a></h3>
             <p>{{ music.author|linebreaksbr }}</p>
-        <!-- </div> -->
     {% endfor %}
 {% endblock %}

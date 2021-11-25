@@ -2,10 +2,16 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content %}
-    <div class="note">
-        <a href="{% url 'note_new' %}" class="add_note"><span class="glyphicon glyphicon-plus"></span></a>
-        <h2>Anotações</h2>
-        {% include 'app/note/note_list.html' %}
+    <div class="base">
+        <div class="row title">
+            <h2>ANOTAÇÕES</h2>
+        </div>
+        <div class="row all_container">
+            <div class="all">
+                <a href="{% url 'note_new' %}" class="add"><span class="glyphicon glyphicon-plus"></span></a>
+                {% include 'app/note/note_list.html' %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 
