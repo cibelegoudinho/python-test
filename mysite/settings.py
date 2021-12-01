@@ -106,8 +106,7 @@ LOGOUT_URL = '/logout'
 AUTHENTICATION_BACKENDS = [
     'app.authentication.backends.CustomModelBackend'
 ]
-SPOTIPY_CLIENT_SECRET = '53f142ee0ddc433b995a8ee493f87e0d'
-SPOTIPY_CLIENT_ID = '00b29d2a35e5439f95eb432e3b24410d'
+
 
 
 # Internationalization
