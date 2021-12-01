@@ -1,1 +1,2 @@
 Django~=2.2.4
+git+https://github.com/plamere/spotipy.git

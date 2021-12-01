@@ -254,6 +254,15 @@ img{
     position: relative;
 }
 
+.detail_search {
+    margin: 15px 0px 15px 0px;
+    border-radius: 6px;
+    width: 770px;
+    padding: 20px;
+    background-color: #FDA1FF;
+    min-height: calc(100vh - 20px - 120px);
+}
+
 .note h2 a, .note h2 a:visited {
     color: #000000;
 }

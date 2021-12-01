@@ -7,7 +7,7 @@
             <h1>Search Results</h1>
         </div>
         <div class="row all_container">
-            <div class="detail">
+            <div class="detail_search">
                 <div class="row result">
                     {% for task in tasks %}  
                         <h3><a href="{% url 'task_detail' pk=task.pk %}">{{ task.task_title|linebreaksbr }}</a></h3>                    
@@ -15,9 +15,16 @@
                     {% endfor %}
                 </div>
                 <div class="row result">
-                    {% for music in musics %}    
-                        <h3><a href="{% url 'music_detail' pk=music.pk %}">{{ music.song_title|linebreaksbr }}</a></h3>                    
-                        <p>{{ music.author|linebreaksbr }}</p>                   
+                    {% for track in tracks %}       
+                        <div class="row">
+                            <a href='{{ track.uri }}'>{{track.music}}</a>
+                        </div>
+                        <div class="row">
+                            Artista: {{ track.artist }}
+                        </div>
+                        <div class="row">
+                           Album: {{ track.album}}
+                        </div>
                     {% endfor %}
                 </div>
                 <div class="row">

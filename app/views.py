@@ -3,6 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, TemplateView, DetailView, ListView
 from django.utils import timezone
 from django.db.models import Q
+from spotipy.oauth2 import SpotifyClientCredentials
+
+from django.conf import settings
 from .models import Note
 from .models import Task
 from .models import Content
@@ -12,6 +15,7 @@ from .forms import TaskForm
 from .forms import ContentForm
 from .forms import MusicForm
 from .functions import get_contents
+import spotipy
     
 class Home(LoginRequiredMixin, TemplateView):
     template_name = 'app/home.html'
@@ -48,9 +52,17 @@ class SearchResultsView(TemplateView):
         query = self.request.GET.get('q')
         context = super().get_context_data(**kwargs)
         contents = Content.objects.filter(Q(file_name__icontains=query)).values('pk','file_name')
-        musics = Music.objects.filter(Q(song_title__icontains=query) | Q(author__icontains=query)).values('pk','song_title', 'author')
         tasks = Task.objects.filter(Q(task_title__icontains=query) | Q(end_date__icontains=query)).values('pk','task_title', 'end_date')
+        # musics = Music.objects.filter(Q(song_title__icontains=query) | Q(author__icontains=query)).values('pk','song_title', 'author')
+        client_credentials = spotipy.oauth2.SpotifyClientCredentials(client_id=settings.SPOTIPY_CLIENT_ID, client_secret=settings.SPOTIPY_CLIENT_SECRET)
+        connection = spotipy.Spotify(auth_manager=client_credentials)
+        musics = connection.search(query, limit=3, type="track")
+        tracks_items = musics.get('tracks').get('items')
+        tracks = []
+        for track in tracks_items:
+            tracks.append({'music': track.get('name'), 'artist': track.get('artists')[0].get('name'), 'album': track.get('album').get('name'), 'uri': track.get('uri')})
 
+        context['tracks'] = tracks
         context['contents'] = contents
         context['musics'] = musics
         context['tasks'] = tasks
